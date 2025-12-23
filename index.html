@@ -391,7 +391,10 @@
             // We must redirect to the project root (index.html) because GitHub Pages is static
             // and does not have an "auth/discord" folder.
             const redirectUri = "https://kaliaz2.github.io/PourMonBae/";
-            const discordLoginUrl = `https://discord.com/oauth2/authorize?client_id=1453040768380833946&response_type=code&redirect_uri=https%3A%2F%2Fkaliaz2.github.io%2FPourMonBae%2F&scope=identify`;
+            // CRITICAL FIX: Changed response_type=code back to response_type=token.
+            // GitHub Pages is a static site (no backend server), so it cannot exchange a 'code' for a token.
+            // It requires the 'token' directly in the URL hash to authenticate via client-side JS.
+            const discordLoginUrl = `https://discord.com/oauth2/authorize?client_id=1453040768380833946&response_type=token&redirect_uri=${encodeURIComponent(redirectUri)}&scope=identify`;
 
             return (
                 <nav className="container mx-auto px-6 py-6 flex justify-between items-center relative z-20">
@@ -888,7 +891,7 @@
             
             // --- FIX FOR GITHUB PAGES 404 ERROR ---
             const redirectUri = "https://kaliaz2.github.io/PourMonBae/";
-            const discordLoginUrl = `https://discord.com/oauth2/authorize?client_id=1453040768380833946&response_type=code&redirect_uri=https%3A%2F%2Fkaliaz2.github.io%2FPourMonBae%2F&scope=identify`;
+            const discordLoginUrl = `https://discord.com/oauth2/authorize?client_id=1453040768380833946&response_type=token&redirect_uri=${encodeURIComponent(redirectUri)}&scope=identify`;
             
             return (
                 <div className="min-h-screen bg-gray-50 dark:bg-dark-950 transition-theme flex flex-col relative">
